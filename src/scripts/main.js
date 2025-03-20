@@ -43,5 +43,4 @@ document.addEventListener('keydown', (e) => {
       game.moveLeft();
     }
   }
-
 });

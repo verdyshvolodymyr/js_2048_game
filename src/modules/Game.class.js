@@ -21,11 +21,12 @@ class Game {
    * initial state.
    */
 
-  constructor(initialState = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
+  constructor(
+    initialState = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
     ],
     boardElement = document.querySelector('.game-field'),
   ) {
@@ -102,15 +103,15 @@ class Game {
     this.boardElement.innerHTML = '';
 
     for (let row = 0; row < this.grid.length; row++) {
-      let test = document.createElement('tr');
+      const tr = document.createElement('tr');
 
       for (let col = 0; col < this.grid.length; col++) {
-        let tile = document.createElement('td');
+        const tile = document.createElement('td');
 
         tile.classList.add('field-cell');
-        test.appendChild(tile);
+        tr.appendChild(tile);
       }
-      this.boardElement.appendChild(test);
+      this.boardElement.appendChild(tr);
     }
 
     this.grid = [
@@ -124,10 +125,10 @@ class Game {
   spawnTile() {
     this.emptyCells = [];
 
-    for (let row = 0; row < this.grid.length; row++) {
-      for (let col = 0; col < this.grid.length; col++) {
-        if (this.grid[row][col] === 0) {
-          this.emptyCells.push({ row, col });
+    for (let rw = 0; rw < this.grid.length; rw++) {
+      for (let cl = 0; cl < this.grid.length; cl++) {
+        if (this.grid[rw][cl] === 0) {
+          this.emptyCells.push({ rw, cl });
         }
       }
     }
@@ -136,7 +137,8 @@ class Game {
       return;
     }
 
-    let { row, col } = this.emptyCells[Math.floor(Math.random() * this.emptyCells.length)];
+    const { row, col } =
+      this.emptyCells[Math.floor(Math.random() * this.emptyCells.length)];
 
     this.grid[row][col] = Math.random() < 0.9 ? 2 : 4;
   }
@@ -145,15 +147,15 @@ class Game {
     this.boardElement.innerHTML = '';
 
     for (let row = 0; row < this.grid.length; row++) {
-      let test = document.createElement('tr');
+      const tr = document.createElement('tr');
 
       for (let col = 0; col < this.grid.length; col++) {
-        let value = this.grid[row][col];
-        let tile = document.createElement('td');
+        const value = this.grid[row][col];
+        const tile = document.createElement('td');
 
         tile.classList.add('field-cell');
-        tile.setAttribute("data-row", row);
-        tile.setAttribute("data-col", col);
+        tile.setAttribute('data-row', row);
+        tile.setAttribute('data-col', col);
 
         if (value !== 0) {
           tile.classList.add(`field-cell--${value}`);
@@ -161,9 +163,9 @@ class Game {
         } else {
           tile.classList.add('field-cell');
         }
-        test.appendChild(tile);
+        tr.appendChild(tile);
       }
-      this.boardElement.appendChild(test);
+      this.boardElement.appendChild(tr);
     }
   }
 }
