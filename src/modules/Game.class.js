@@ -128,7 +128,7 @@ class Game {
     for (let rw = 0; rw < this.grid.length; rw++) {
       for (let cl = 0; cl < this.grid.length; cl++) {
         if (this.grid[rw][cl] === 0) {
-          this.emptyCells.push({ rw, cl });
+          this.emptyCells.push({ row: rw, col: cl });
         }
       }
     }
