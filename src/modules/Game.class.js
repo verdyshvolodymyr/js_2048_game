@@ -20,15 +20,50 @@ class Game {
    * If passed, the board will be initialized with the provided
    * initial state.
    */
-  constructor(initialState) {
-    // eslint-disable-next-line no-console
-    console.log(initialState);
+
+  constructor(initialState = [
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    [0, 0, 0, 0],
+    ],
+    boardElement = document.querySelector('.game-field'),
+  ) {
+    this.grid = initialState;
+    this.boardElement = boardElement;
+    this.emptyCells = [];
   }
 
-  moveLeft() {}
-  moveRight() {}
-  moveUp() {}
-  moveDown() {}
+  moveLeft() {
+    this.start();
+  }
+  moveRight() {
+    const arrRigth = [];
+
+    for (let i = 0; i < this.grid.length; i++) {
+      const tasty = [];
+
+      for (let y = 0; y < this.grid.length; y++) {
+        if (this.grid[i][y] !== 0) {
+          tasty.push(this.grid[i][y]);
+        }
+      }
+
+      for (let k = tasty.length; k < 4; k++) {
+        tasty.unshift(0);
+      }
+      arrRigth.push(tasty);
+    }
+
+    this.grid = arrRigth;
+    this.start();
+  }
+  moveUp() {
+    this.start();
+  }
+  moveDown() {
+    this.start();
+  }
 
   /**
    * @returns {number}
@@ -55,14 +90,82 @@ class Game {
   /**
    * Starts the game.
    */
-  start() {}
+  start() {
+    this.spawnTile();
+    this.render();
+  }
 
   /**
    * Resets the game.
    */
-  restart() {}
+  restart() {
+    this.boardElement.innerHTML = '';
 
-  // Add your own methods here
+    for (let row = 0; row < this.grid.length; row++) {
+      let test = document.createElement('tr');
+
+      for (let col = 0; col < this.grid.length; col++) {
+        let tile = document.createElement('td');
+
+        tile.classList.add('field-cell');
+        test.appendChild(tile);
+      }
+      this.boardElement.appendChild(test);
+    }
+
+    this.grid = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+  }
+
+  spawnTile() {
+    this.emptyCells = [];
+
+    for (let row = 0; row < this.grid.length; row++) {
+      for (let col = 0; col < this.grid.length; col++) {
+        if (this.grid[row][col] === 0) {
+          this.emptyCells.push({ row, col });
+        }
+      }
+    }
+
+    if (this.emptyCells.length === 0) {
+      return;
+    }
+
+    let { row, col } = this.emptyCells[Math.floor(Math.random() * this.emptyCells.length)];
+
+    this.grid[row][col] = Math.random() < 0.9 ? 2 : 4;
+  }
+
+  render() {
+    this.boardElement.innerHTML = '';
+
+    for (let row = 0; row < this.grid.length; row++) {
+      let test = document.createElement('tr');
+
+      for (let col = 0; col < this.grid.length; col++) {
+        let value = this.grid[row][col];
+        let tile = document.createElement('td');
+
+        tile.classList.add('field-cell');
+        tile.setAttribute("data-row", row);
+        tile.setAttribute("data-col", col);
+
+        if (value !== 0) {
+          tile.classList.add(`field-cell--${value}`);
+          tile.textContent = value;
+        } else {
+          tile.classList.add('field-cell');
+        }
+        test.appendChild(tile);
+      }
+      this.boardElement.appendChild(test);
+    }
+  }
 }
 
 module.exports = Game;
