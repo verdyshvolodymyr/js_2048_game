@@ -7,6 +7,7 @@ const game = new Game();
 // Write your code here
 
 const start = document.querySelector('.start');
+const goodLuck = document.querySelector('.message-start');
 
 start.addEventListener('click', (e) => {
   if (e.target.textContent === 'Restart') {
@@ -14,14 +15,21 @@ start.addEventListener('click', (e) => {
     e.target.classList.add('start');
     e.target.classList.remove('restart');
 
+    goodLuck.classList.remove('hidden');
+
     game.restart();
+    game.getScore();
+    game.getStatus();
   } else {
     e.target.textContent = 'Restart';
     e.target.classList.add('restart');
     e.target.classList.remove('start');
 
+    goodLuck.classList.add('hidden');
+
     game.start();
     game.start();
+    game.getStatus();
   }
 });
 
@@ -29,18 +37,26 @@ document.addEventListener('keydown', (e) => {
   if (start.textContent === 'Restart') {
     if (e.key === 'ArrowUp') {
       game.moveUp();
+      game.getScore();
+      game.getStatus();
     }
 
     if (e.key === 'ArrowRight') {
       game.moveRight();
+      game.getScore();
+      game.getStatus();
     }
 
     if (e.key === 'ArrowDown') {
       game.moveDown();
+      game.getScore();
+      game.getStatus();
     }
 
     if (e.key === 'ArrowLeft') {
       game.moveLeft();
+      game.getScore();
+      game.getStatus();
     }
   }
 });
